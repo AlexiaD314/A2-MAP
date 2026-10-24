@@ -1,4 +1,5 @@
 plugins {
+    java
     application
 }
 
@@ -7,24 +8,18 @@ repositories {
 }
 
 dependencies {
-    testImplementation(libs.junit.jupiter)
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-    }
-}
-
 application {
-    mainClass = "interpreter.Main"
+    mainClass.set("interpreter.Main")
 }
 
 tasks.named<JavaExec>("run") {
-    standardInput = System.`in`         // keyboard input for the text menu 
+    standardInput = System.`in`
 }
 
 tasks.named<Test>("test") {
     useJUnitPlatform()
-} 
+}
