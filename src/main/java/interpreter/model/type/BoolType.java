@@ -8,7 +8,11 @@ public class BoolType implements IType {
         return new BoolValue(false);
     }
     @Override
-    public String  toString() {
+    public boolean equals(Object another) {
+        return another instanceof BoolType;
+    }
+    @Override
+    public String toString() {
         return "bool";
     }
 }
