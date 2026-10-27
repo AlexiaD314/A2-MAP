@@ -1,0 +1,98 @@
+ExeStack:
+[(int a;(a=5;print(a)))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=5;print(a)), int a]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=5;print(a))]
+SymTable:
+{a=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(a), a=5]
+SymTable:
+{a=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int a;(a=5;print(a)))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=5;print(a)), int a]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=5;print(a))]
+SymTable:
+{a=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(a), a=5]
+SymTable:
+{a=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int a;(a=5;print(a)))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=5;print(a)), int a]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=5;print(a))]
+SymTable:
+{a=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(a), a=5]
+SymTable:
+{a=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(a)]
+SymTable:
+{a=5}
+Out:
+[]
+--------------------------------
+ExeStack:
+[]
+SymTable:
+{a=5}
+Out:
+[5]
+--------------------------------

@@ -1,0 +1,98 @@
+ExeStack:
+[(int x;(x=10;print(x)))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(x=10;print(x)), int x]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(x=10;print(x))]
+SymTable:
+{x=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(x), x=10]
+SymTable:
+{x=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int x;(x=10;print(x)))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(x=10;print(x)), int x]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(x=10;print(x))]
+SymTable:
+{x=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(x), x=10]
+SymTable:
+{x=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int x;(x=10;print(x)))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(x=10;print(x)), int x]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(x=10;print(x))]
+SymTable:
+{x=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(x), x=10]
+SymTable:
+{x=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(x)]
+SymTable:
+{x=10}
+Out:
+[]
+--------------------------------
+ExeStack:
+[]
+SymTable:
+{x=10}
+Out:
+[10]
+--------------------------------
