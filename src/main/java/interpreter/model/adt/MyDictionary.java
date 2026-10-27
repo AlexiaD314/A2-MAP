@@ -19,6 +19,10 @@ public class MyDictionary<K, V> implements IDictionary<K, V> {
         return map.get(key);
     }
     @Override
+    public void put(K key, V value) {
+        map.put(key, value);
+    }
+    @Override
     public void update(K key, V value) {
         map.put(key, value);
     }

@@ -96,3 +96,157 @@ SymTable:
 Out:
 [10]
 --------------------------------
+ExeStack:
+[(bool a;(int v;(a=true;((if a then v=2 else v=3);print(v)))))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int v;(a=true;((if a then v=2 else v=3);print(v)))), bool a]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int v;(a=true;((if a then v=2 else v=3);print(v))))]
+SymTable:
+{a=false}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=true;((if a then v=2 else v=3);print(v))), int v]
+SymTable:
+{a=false}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=true;((if a then v=2 else v=3);print(v)))]
+SymTable:
+{a=false, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[((if a then v=2 else v=3);print(v)), a=true]
+SymTable:
+{a=false, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[((if a then v=2 else v=3);print(v))]
+SymTable:
+{a=true, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(v), (if a then v=2 else v=3)]
+SymTable:
+{a=true, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(v), v=2]
+SymTable:
+{a=true, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(v)]
+SymTable:
+{a=true, v=2}
+Out:
+[]
+--------------------------------
+ExeStack:
+[]
+SymTable:
+{a=true, v=2}
+Out:
+[2]
+--------------------------------
+ExeStack:
+[(bool a;(int v;(a=true;((if a then v=2 else v=3);print(v)))))]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int v;(a=true;((if a then v=2 else v=3);print(v)))), bool a]
+SymTable:
+{}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(int v;(a=true;((if a then v=2 else v=3);print(v))))]
+SymTable:
+{a=false}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=true;((if a then v=2 else v=3);print(v))), int v]
+SymTable:
+{a=false}
+Out:
+[]
+--------------------------------
+ExeStack:
+[(a=true;((if a then v=2 else v=3);print(v)))]
+SymTable:
+{a=false, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[((if a then v=2 else v=3);print(v)), a=true]
+SymTable:
+{a=false, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[((if a then v=2 else v=3);print(v))]
+SymTable:
+{a=true, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(v), (if a then v=2 else v=3)]
+SymTable:
+{a=true, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(v), v=2]
+SymTable:
+{a=true, v=0}
+Out:
+[]
+--------------------------------
+ExeStack:
+[print(v)]
+SymTable:
+{a=true, v=2}
+Out:
+[]
+--------------------------------
+ExeStack:
+[]
+SymTable:
+{a=true, v=2}
+Out:
+[2]
+--------------------------------
