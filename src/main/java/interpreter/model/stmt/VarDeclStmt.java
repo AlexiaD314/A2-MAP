@@ -19,7 +19,7 @@ public class VarDeclStmt implements IStmt {
             throw new MyException("Variable " + name + " is already declared.");
         }
         symTable.put(name, type.defaultValue());
-        return null;
+        return state;
     }
     @Override
     public String toString() {

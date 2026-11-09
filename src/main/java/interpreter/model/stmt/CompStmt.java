@@ -16,7 +16,7 @@ public class CompStmt implements IStmt{
         IStack<IStmt> stk = prgState.getExeStack();
         stk.push(snd);
         stk.push(first);
-        return null;
+        return prgState;
     }
     @Override
     public String toString() {

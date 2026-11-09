@@ -29,7 +29,7 @@ public class IfStmt implements IStmt {
         } else {
             state.getExeStack().push(elseS);
         }
-        return null;
+        return state;
     }
     @Override
     public String toString() {

@@ -25,7 +25,7 @@ public class AssignStmt implements IStmt {
             throw new MyException("Declared type of variable " + id + " and type of assigned expression do not match.");
         }
         symTable.update(id, val);
-        return null;
+        return state;
     }
     @Override
     public String toString() {
