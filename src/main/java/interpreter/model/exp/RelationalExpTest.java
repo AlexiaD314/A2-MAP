@@ -1,4 +1,15 @@
 package interpreter.model.exp;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import interpreter.exceptions.ExpressionException;
+import interpreter.exceptions.MyException;
+import interpreter.model.adt.IDictionary;
+import interpreter.model.adt.MyDictionary;
+import interpreter.model.value.BoolValue;
+import interpreter.model.value.IntValue;
+import interpreter.model.value.StringValue;
+import interpreter.model.value.ValueExp;
 
 class RelationalExpTest {
     private IDictionary<String, IValue> symTable;
