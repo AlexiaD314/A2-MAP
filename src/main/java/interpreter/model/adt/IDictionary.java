@@ -1,5 +1,6 @@
 package interpreter.model.adt;
 import interpreter.exceptions.MyException;
+import java.util.Map;
 
 public interface IDictionary<K, V> {
     boolean isDefined(K key);
