@@ -1,34 +1,34 @@
 package interpreter.view;
-import java.util.HashMap;
+
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 
 public class TextMenu {
-    private Map<String, Command> commands;
-    public TextMenu() {
-        commands = new HashMap<>();
-    }
+    private final Map<String, Command> commands = new LinkedHashMap<>();
+
     public void addCommand(Command c) {
         commands.put(c.getKey(), c);
     }
+
     private void printMenu() {
-        for (Command com : commands.values()) {
-            String line = String.format("%4s : %s", com.getKey(), com.getDescription());
-            System.out.println(line);
+        for (Command c : commands.values()) {
+            System.out.printf("%4s : %s%n", c.getKey(), c.getDescription());
         }
     }
+
     public void show() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             printMenu();
-            System.out.printf("Input option: ");
-            String key = scanner.nextLine();
-            Command com = commands.get(key);
-            if (com == null) {
+            System.out.print("Input the option: ");
+            String key = scanner.nextLine().strip();
+            Command c = commands.get(key);
+            if (c == null) {
                 System.out.println("Invalid option");
                 continue;
             }
-            com.execute();
+            c.execute();
         }
     }
 }

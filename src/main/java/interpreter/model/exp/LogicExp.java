@@ -6,17 +6,7 @@ import interpreter.model.type.BoolType;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 
-public class LogicExp implements IExp {
-    private IExp left;
-    private IExp right;
-    private LogicOp op;
-
-    public LogicExp(LogicOp op, IExp left, IExp right) {
-        this.op = op;
-        this.left = left;
-        this.right = right;
-    }
-
+public record LogicExp(LogicOp op, IExp left, IExp right) implements IExp {
     @Override
     public IValue eval(IDictionary<String, IValue> symTable) throws MyException {
         IValue v1 = left.eval(symTable);

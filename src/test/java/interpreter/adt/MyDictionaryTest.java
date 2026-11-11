@@ -1,4 +1,4 @@
-package interpreter.model.adt;
+package interpreter.adt;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;

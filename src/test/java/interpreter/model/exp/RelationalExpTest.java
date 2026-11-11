@@ -1,6 +1,6 @@
 package interpreter.model.exp;
+
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import interpreter.exceptions.ExpressionException;
 import interpreter.exceptions.MyException;
@@ -9,15 +9,9 @@ import interpreter.model.adt.MyDictionary;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IntValue;
 import interpreter.model.value.StringValue;
-import interpreter.model.value.ValueExp;
+import interpreter.model.value.IValue;
 
 class RelationalExpTest {
-    private IDictionary<String, IValue> symTable;
-
-    @BeforeEach
-    void setUp() {
-        symTable = new MyDictionary<>();
-    }
 
     private static IExp num(int n) {
         return new ValueExp(new IntValue(n));
@@ -25,6 +19,8 @@ class RelationalExpTest {
 
     @Test
     void testOperators() throws MyException {
+        IDictionary<String, IValue> symTable = new MyDictionary<>();
+
         // <
         assertEquals(new BoolValue(true), new RelationalExp(RelOp.LT, num(3), num(5)).eval(symTable));
         assertEquals(new BoolValue(false), new RelationalExp(RelOp.LT, num(5), num(3)).eval(symTable));
@@ -52,6 +48,8 @@ class RelationalExpTest {
 
     @Test
     void testNonIntegerOperandThrows() {
+        IDictionary<String, IValue> symTable = new MyDictionary<>();
+
         IExp invalidExp = new RelationalExp(RelOp.LT, new ValueExp(new StringValue("abc")), num(5));
         assertThrows(ExpressionException.class, () -> invalidExp.eval(symTable));
 
