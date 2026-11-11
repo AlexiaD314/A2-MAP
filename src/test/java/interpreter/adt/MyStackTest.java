@@ -3,6 +3,8 @@ package interpreter.adt;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import interpreter.exceptions.MyException;
+import interpreter.model.adt.IStack;
+import interpreter.model.adt.MyStack;
 
 class MyStackTest {
 

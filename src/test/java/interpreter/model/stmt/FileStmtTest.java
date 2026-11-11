@@ -7,10 +7,13 @@ import java.io.PrintWriter;
 import interpreter.exceptions.MyException;
 import interpreter.exceptions.StatementException;
 import interpreter.model.PrgState;
+import interpreter.model.adt.MyDictionary;
+import interpreter.model.adt.MyList;
+import interpreter.model.adt.MyStack;
+import interpreter.model.exp.ValueExp;
 import interpreter.model.type.IntType;
 import interpreter.model.value.IntValue;
 import interpreter.model.value.StringValue;
-import interpreter.model.value.ValueExp;
 
 class FileStmtTest {
 
@@ -20,7 +23,9 @@ class FileStmtTest {
             writer.println("7");
         }
         ValueExp fileExp = new ValueExp(new StringValue("test.in"));
-        PrgState state = PrgState.of(new NopStmt());
+
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
+
         new VarDeclStmt("x", new IntType()).execute(state);
 
         new OpenRFileStmt(fileExp).execute(state);
@@ -39,7 +44,9 @@ class FileStmtTest {
             writer.println("7");
         }
         ValueExp fileExp = new ValueExp(new StringValue("test.in"));
-        PrgState state = PrgState.of(new NopStmt());
+
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
+
         new VarDeclStmt("x", new IntType()).execute(state);
 
         new OpenRFileStmt(fileExp).execute(state);
@@ -51,6 +58,9 @@ class FileStmtTest {
     @Test
     void closingUnopenedFileThrows() {
         ValueExp fileExp = new ValueExp(new StringValue("test.in"));
+
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
+
         assertThrows(StatementException.class, () -> new CloseRFileStmt(fileExp).execute(state));
     }
 }
