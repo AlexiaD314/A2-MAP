@@ -20,25 +20,22 @@ public class CloseRFileStmt implements IStmt {
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IValue val = exp.eval(state.getSymTable());
-        if (val.getType().equals(new StringType())) {
-            StringValue strVal = (StringValue) val;
-            var fileTable = state.getFileTable();
+        if (!val.getType().equals(new StringType()))
+            throw new StatementException("closeRFile: expression " + exp + " is not a string.");
 
-            if (fileTable.isDefined(strVal)) {
-                BufferedReader br = fileTable.lookup(strVal);
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    throw new StatementException("Error closing file: " + e.getMessage());
-                }
-                fileTable.remove(strVal);
-            } else {
-                throw new StatementException("File not opened.");
-            }
-        } else {
-            throw new StatementException("Expression not a string type.");
+        StringValue strVal = (StringValue) val;
+        var fileTable = state.getFileTable();
+        if (!fileTable.isDefined(strVal))
+            throw new StatementException("closeRFile: file " + strVal + " is not opened.");
+
+        BufferedReader br = (BufferedReader) fileTable.lookup(strVal);
+        try {
+            br.close();
+        } catch (IOException e) {
+            throw new StatementException("closeRFile error: " + e.getMessage());
         }
-        return null;
+        fileTable.remove(strVal);
+        return state;
     }
 
     @Override

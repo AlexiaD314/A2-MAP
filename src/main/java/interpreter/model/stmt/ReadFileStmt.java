@@ -24,35 +24,29 @@ public class ReadFileStmt implements IStmt {
     @Override
     public PrgState execute(PrgState state) throws MyException {
         var symTable = state.getSymTable();
-        if (symTable.isDefined(varName)) {
-            if (symTable.lookup(varName).getType().equals(new IntType())) {
-                IValue val = exp.eval(symTable);
-                if (val.getType().equals(new StringType())) {
-                    StringValue strVal = (StringValue) val;
-                    var fileTable = state.getFileTable();
+        if (!symTable.isDefined(varName))
+            throw new StatementException("readFile: variable " + varName + " is not defined.");
+        if (!symTable.lookup(varName).getType().equals(new IntType()))
+            throw new StatementException("readFile: variable " + varName + " is not of type int.");
 
-                    if (fileTable.isDefined(strVal)) {
-                        BufferedReader br = fileTable.lookup(strVal);
-                        try {
-                            String line = br.readLine();
-                            int intVal = (line == null) ? 0 : Integer.parseInt(line);
-                            symTable.put(varName, new IntValue(intVal));
-                        } catch (IOException | NumberFormatException e) {
-                            throw new StatementException("Error reading from file: " + e.getMessage());
-                        }
-                    } else {
-                        throw new StatementException("File not opened.");
-                    }
-                } else {
-                    throw new StatementException("File name expression not a string.");
-                }
-            } else {
-                throw new StatementException("Variable " + varName + " not of int type.");
-            }
-        } else {
-            throw new StatementException("Variable " + varName + " not defined in symTable.");
+        IValue val = exp.eval(symTable);
+        if (!val.getType().equals(new StringType()))
+            throw new StatementException("readFile: expression " + exp + " is not a string.");
+
+        StringValue strVal = (StringValue) val;
+        var fileTable = state.getFileTable();
+        if (!fileTable.isDefined(strVal))
+            throw new StatementException("readFile: file " + strVal + " is not opened in FileTable.");
+
+        BufferedReader br = (BufferedReader) fileTable.lookup(strVal);
+        try {
+            String line = br.readLine();
+            int intVal = (line == null) ? 0 : Integer.parseInt(line.strip());
+            symTable.put(varName, new IntValue(intVal));
+        } catch (IOException | NumberFormatException e) {
+            throw new StatementException("readFile error: " + e.getMessage());
         }
-        return null;
+        return state;
     }
 
     @Override
