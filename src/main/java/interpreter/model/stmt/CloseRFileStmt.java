@@ -10,13 +10,7 @@ import interpreter.model.type.StringType;
 import interpreter.model.value.StringValue;
 import interpreter.model.value.IValue;
 
-public class CloseRFileStmt implements IStmt {
-    private final IExp exp;
-
-    public CloseRFileStmt(IExp exp) {
-        this.exp = exp;
-    }
-
+public record CloseRFileStmt(IExp exp) implements IStmt {
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IValue val = exp.eval(state.getSymTable());

@@ -5,13 +5,8 @@ import interpreter.model.adt.IDictionary;
 import interpreter.model.type.IType;
 import interpreter.model.value.IValue;
 
-public class VarDeclStmt implements IStmt {
-    private String name;
-    private IType type;
-    public VarDeclStmt(String name, IType type) {
-        this.name = name;
-        this.type = type;
-    }
+public record VarDeclStmt(String name, IType type) implements IStmt {
+
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IDictionary<String, IValue> symTable = state.getSymTable();

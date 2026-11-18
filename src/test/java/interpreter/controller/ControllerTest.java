@@ -2,10 +2,10 @@ package interpreter.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import org.junit.jupiter.api.io.TempDir;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.stmt.IStmt;
@@ -14,22 +14,21 @@ import interpreter.repository.Repository;
 import interpreter.view.Examples;
 
 class ControllerTest {
+    @TempDir
+    Path dir;
 
-    private PrgState run(IStmt program, String logFileName) throws MyException {
+    private PrgState run(IStmt program) throws MyException {
         PrgState state = PrgState.of(program);
-        var repo = new Repository(state, logFileName);
+        var repo = new Repository(state, dir.resolve("log.txt").toString());
         new Controller(repo, false).allStep();
         return state;
     }
 
     @Test
     void fileExampleReadsBothNumbersAndClosesTheFile() throws Exception {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("test_ctrl.in"))) {
-            writer.println("15");
-            writer.println("50");
-        }
-
-        PrgState s = run(Examples.fileExample("test_ctrl.in"), "log_test.txt");
+        Path in = dir.resolve("test.in");
+        Files.writeString(in, "15\n50\n");
+        PrgState s = run(Examples.fileExample(in.toString()));
         assertEquals(new IntValue(15), s.getOut().get(0));
         assertEquals(new IntValue(50), s.getOut().get(1));
         assertTrue(s.getFileTable().toMap().isEmpty());
@@ -37,10 +36,10 @@ class ControllerTest {
 
     @Test
     void logFileContainsTheFourSectionsInOrder() throws Exception {
-        run(Examples.EX1, "log_ex1.txt");
-        String log = Files.readString(Path.of("log_ex1.txt"));
+        run(Examples.EX1);
+        String log = Files.readString(dir.resolve("log.txt"));
         int a = log.indexOf("ExeStack:"), b = log.indexOf("SymTable:"),
-                c = log.indexOf("Out:"), d = log.indexOf("FileTable:");
+                c = log.indexOf("Out:"),      d = log.indexOf("FileTable:");
         assertTrue(0 <= a && a < b && b < c && c < d);
     }
 }

@@ -7,15 +7,8 @@ import interpreter.model.type.BoolType;
 import interpreter.model.value.BoolValue;
 import interpreter.model.value.IValue;
 
-public class IfStmt implements IStmt {
-    private IExp cond;
-    private IStmt thenS;
-    private IStmt elseS;
-    public IfStmt(IExp cond, IStmt thenS, IStmt elseS) {
-        this.cond = cond;
-        this.thenS = thenS;
-        this.elseS = elseS;
-    }
+public record IfStmt(IExp cond, IStmt thenS, IStmt elseS) implements IStmt {
+
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IDictionary<String, IValue> symTable = state.getSymTable();
@@ -24,7 +17,7 @@ public class IfStmt implements IStmt {
             throw new MyException("Conditional expression is not a boolean.");
         }
         BoolValue boolVal = (BoolValue) val;
-        if (boolVal.getVal()) {
+        if (boolVal.val()) {
             state.getExeStack().push(thenS);
         } else {
             state.getExeStack().push(elseS);

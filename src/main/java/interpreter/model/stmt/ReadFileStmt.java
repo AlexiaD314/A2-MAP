@@ -12,14 +12,7 @@ import interpreter.model.value.IntValue;
 import interpreter.model.value.StringValue;
 import interpreter.model.value.IValue;
 
-public class ReadFileStmt implements IStmt {
-    private final IExp exp;
-    private final String varName;
-
-    public ReadFileStmt(IExp exp, String varName) {
-        this.exp = exp;
-        this.varName = varName;
-    }
+public record ReadFileStmt(IExp exp, String varName) implements IStmt {
 
     @Override
     public PrgState execute(PrgState state) throws MyException {

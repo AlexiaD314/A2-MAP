@@ -6,13 +6,8 @@ import interpreter.model.type.IType;
 import interpreter.model.value.IValue;
 import interpreter.model.adt.IDictionary;
 
-public class AssignStmt implements IStmt {
-    private String id;
-    private IExp exp;
-    public AssignStmt(String id, IExp exp) {
-        this.id = id;
-        this.exp = exp;
-    }
+public record AssignStmt(String id, IExp exp) implements IStmt {
+
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IDictionary<String, IValue> symTable = state.getSymTable();

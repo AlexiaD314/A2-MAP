@@ -4,11 +4,8 @@ import interpreter.model.PrgState;
 import interpreter.model.exp.IExp;
 import interpreter.model.value.IValue;
 
-public class PrintStmt implements IStmt {
-    private IExp exp;
-    public PrintStmt(IExp exp) {
-        this.exp = exp;
-    }
+public record PrintStmt(IExp exp) implements IStmt {
+
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IValue val = exp.eval(state.getSymTable());

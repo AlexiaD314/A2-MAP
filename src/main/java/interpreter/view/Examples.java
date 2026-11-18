@@ -43,7 +43,6 @@ public class Examples {
 
     public static final IStmt EX4 = fileExample("test.in");
 
-    // Ex5: int a; int b; a = 5; b = 7; (if a < b then print(a) else print(b))
     public static final IStmt EX5 = new CompStmt(new VarDeclStmt("a", new IntType()),
             new CompStmt(new VarDeclStmt("b", new IntType()),
                     new CompStmt(new AssignStmt("a", new ValueExp(new IntValue(5))),

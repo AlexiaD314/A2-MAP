@@ -1,9 +1,12 @@
 package interpreter.model.stmt;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import org.junit.jupiter.api.io.TempDir;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import interpreter.exceptions.MyException;
 import interpreter.exceptions.StatementException;
 import interpreter.model.PrgState;
@@ -16,51 +19,62 @@ import interpreter.model.value.IntValue;
 import interpreter.model.value.StringValue;
 
 class FileStmtTest {
+    @TempDir
+    Path dir;
 
-    @Test
-    void readGivesTheNextNumberThenZeroAtTheEnd() throws Exception {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("test.in"))) {
-            writer.println("7");
-        }
-        ValueExp fileExp = new ValueExp(new StringValue("test.in"));
+    private PrgState state;
+    private ValueExp file;
 
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
-
+    @BeforeEach
+    void setUp() throws Exception {
+        Path f = dir.resolve("numbers.in");
+        Files.writeString(f, "7\n");
+        file = new ValueExp(new StringValue(f.toString()));
+        state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
         new VarDeclStmt("x", new IntType()).execute(state);
-
-        new OpenRFileStmt(fileExp).execute(state);
-        new ReadFileStmt(fileExp, "x").execute(state);
-        assertEquals(new IntValue(7), state.getSymTable().lookup("x"));
-
-        new ReadFileStmt(fileExp, "x").execute(state);
-        assertEquals(new IntValue(0), state.getSymTable().lookup("x"));
-
-        new CloseRFileStmt(fileExp).execute(state);
     }
 
     @Test
-    void openingTheSameFileTwiceThrows() throws Exception {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("test.in"))) {
-            writer.println("7");
-        }
-        ValueExp fileExp = new ValueExp(new StringValue("test.in"));
-
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
-
-        new VarDeclStmt("x", new IntType()).execute(state);
-
-        new OpenRFileStmt(fileExp).execute(state);
-        assertThrows(StatementException.class, () -> new OpenRFileStmt(fileExp).execute(state));
-
-        new CloseRFileStmt(fileExp).execute(state);
+    void openingNonExistentFileThrows() {
+        ValueExp badFileExp = new ValueExp(new StringValue(dir.resolve("nonexistent.in").toString()));
+        assertThrows(MyException.class, () -> new OpenRFileStmt(badFileExp).execute(state));
     }
 
     @Test
     void closingUnopenedFileThrows() {
-        ValueExp fileExp = new ValueExp(new StringValue("test.in"));
+        assertThrows(StatementException.class, () -> new CloseRFileStmt(file).execute(state));
+    }
 
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
+    @Test
+    void readingFromUnopenedFileThrows() {
+        assertThrows(MyException.class, () -> new ReadFileStmt(file, "x").execute(state));
+    }
 
-        assertThrows(StatementException.class, () -> new CloseRFileStmt(fileExp).execute(state));
+    @Test
+    void readingUndeclaredVariableThrows() throws MyException {
+        new OpenRFileStmt(file).execute(state);
+        assertThrows(MyException.class, () -> new ReadFileStmt(file, "y").execute(state));
+        new CloseRFileStmt(file).execute(state);
+    }
+
+    @Test
+    void readGivesTheNextNumberThenZeroAtTheEnd() throws MyException {
+        new OpenRFileStmt(file).execute(state);
+        new ReadFileStmt(file, "x").execute(state);
+        assertEquals(new IntValue(7), state.getSymTable().lookup("x"));
+
+        new ReadFileStmt(file, "x").execute(state);
+        assertEquals(new IntValue(0), state.getSymTable().lookup("x"));
+
+        new CloseRFileStmt(file).execute(state);
+    }
+
+    @Test
+    void openingTheSameFileTwiceThrows() throws MyException {
+        new OpenRFileStmt(file).execute(state);
+        assertThrows(StatementException.class,
+                () -> new OpenRFileStmt(file).execute(state));
+
+        new CloseRFileStmt(file).execute(state);
     }
 }

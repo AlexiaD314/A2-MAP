@@ -4,13 +4,8 @@ import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.adt.IStack;
 
-public class CompStmt implements IStmt{
-    private IStmt first;
-    private IStmt snd;
-    public CompStmt(IStmt first, IStmt snd) {
-        this.first = first;
-        this.snd = snd;
-    }
+public record CompStmt(IStmt first, IStmt snd) implements IStmt{
+
     @Override
     public PrgState execute(PrgState prgState) throws MyException{
         IStack<IStmt> stk = prgState.getExeStack();

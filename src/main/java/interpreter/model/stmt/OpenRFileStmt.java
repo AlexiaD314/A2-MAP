@@ -11,12 +11,7 @@ import interpreter.model.type.StringType;
 import interpreter.model.value.StringValue;
 import interpreter.model.value.IValue;
 
-public class OpenRFileStmt implements IStmt {
-    private final IExp exp;
-
-    public OpenRFileStmt(IExp exp) {
-        this.exp = exp;
-    }
+public record OpenRFileStmt(IExp exp) implements IStmt {
 
     @Override
     public PrgState execute(PrgState state) throws MyException {
@@ -38,7 +33,7 @@ public class OpenRFileStmt implements IStmt {
         } else {
             throw new StatementException("Expression evaluated to non-string type.");
         }
-        return null;
+        return state;
     }
 
     @Override

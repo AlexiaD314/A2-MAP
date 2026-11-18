@@ -17,8 +17,8 @@ public record LogicExp(LogicOp op, IExp left, IExp right) implements IExp {
         if (!v2.getType().equals(new BoolType())) {
             throw new MyException("Second operand is not a boolean.");
         }
-        boolean b1 = ((BoolValue) v1).getVal();
-        boolean b2 = ((BoolValue) v2).getVal();
+        boolean b1 = ((BoolValue) v1).val();
+        boolean b2 = ((BoolValue) v2).val();
 
         switch (op) {
             case AND: return new BoolValue(b1 && b2);
