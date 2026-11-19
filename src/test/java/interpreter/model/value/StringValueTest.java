@@ -12,7 +12,7 @@ class StringValueTest {
 
     @Test
     void stringVariableDefaultValue() throws Exception {
-        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new NopStmt());
+        PrgState state = new PrgState(new MyStack<>(), new MyDictionary<>(), new MyList<>(), new MyDictionary<>(), new MyHeap(), new NopStmt());
         new VarDeclStmt("str", new StringType()).execute(state);
         assertEquals(new StringValue(""), state.getSymTable().lookup("str"));
     }

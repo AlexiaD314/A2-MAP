@@ -22,7 +22,7 @@ public record ReadFileStmt(IExp exp, String varName) implements IStmt {
         if (!symTable.lookup(varName).getType().equals(new IntType()))
             throw new StatementException("readFile: variable " + varName + " is not of type int.");
 
-        IValue val = exp.eval(symTable);
+        IValue val = exp.eval(state.getSymTable(), state.getHeap());
         if (!val.getType().equals(new StringType()))
             throw new StatementException("readFile: expression " + exp + " is not a string.");
 

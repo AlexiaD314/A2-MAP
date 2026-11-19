@@ -1,4 +1,5 @@
 package interpreter.model.stmt;
+
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.adt.IDictionary;
@@ -12,7 +13,7 @@ public record IfStmt(IExp cond, IStmt thenS, IStmt elseS) implements IStmt {
     @Override
     public PrgState execute(PrgState state) throws MyException {
         IDictionary<String, IValue> symTable = state.getSymTable();
-        IValue val = cond.eval(symTable);
+        IValue val = cond.eval(state.getSymTable(), state.getHeap());
         if (!val.getType().equals(new BoolType())) {
             throw new MyException("Conditional expression is not a boolean.");
         }
@@ -24,6 +25,7 @@ public record IfStmt(IExp cond, IStmt thenS, IStmt elseS) implements IStmt {
         }
         return state;
     }
+
     @Override
     public String toString() {
         return "(if " + cond.toString() + " then " + thenS.toString() + " else " + elseS.toString() + ")";

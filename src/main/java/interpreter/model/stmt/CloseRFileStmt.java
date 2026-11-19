@@ -13,7 +13,7 @@ import interpreter.model.value.IValue;
 public record CloseRFileStmt(IExp exp) implements IStmt {
     @Override
     public PrgState execute(PrgState state) throws MyException {
-        IValue val = exp.eval(state.getSymTable());
+        IValue val = exp.eval(state.getSymTable(), state.getHeap());
         if (!val.getType().equals(new StringType()))
             throw new StatementException("closeRFile: expression " + exp + " is not a string.");
 
