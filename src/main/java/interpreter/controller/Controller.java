@@ -2,6 +2,7 @@ package interpreter.controller;
 
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
+import interpreter.model.adt.GarbageCollector;
 import interpreter.model.adt.IStack;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;
@@ -38,7 +39,12 @@ public class Controller {
 
         while (!prg.getExeStack().isEmpty()) {
             oneStep(prg);
-
+            prg.getHeap().setContent(
+                    GarbageCollector.safeGarbageCollector(
+                            prg.getSymTable().toMap().values(),
+                            prg.getHeap().getContent()
+                    )
+            );
             repo.logPrgStateExec();
             if (displayFlag) {
                 display(prg);
