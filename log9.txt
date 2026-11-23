@@ -1,18 +1,18 @@
 ExeStack:
-(Ref(int) v;(new(v, 20);(Ref(Ref(int)) a;(new(a, v);(new(v, 30);(a=v;print(rH(a))))))))
+(Ref(int) v;(new(v, 20);(Ref(Ref(int)) a;(new(a, v);(new(v, 30);print(rH(rH(a))))))))
 SymTable:
 Out:
 FileTable:
 Heap:
 ExeStack:
 Ref(int) v
-(new(v, 20);(Ref(Ref(int)) a;(new(a, v);(new(v, 30);(a=v;print(rH(a)))))))
+(new(v, 20);(Ref(Ref(int)) a;(new(a, v);(new(v, 30);print(rH(rH(a)))))))
 SymTable:
 Out:
 FileTable:
 Heap:
 ExeStack:
-(new(v, 20);(Ref(Ref(int)) a;(new(a, v);(new(v, 30);(a=v;print(rH(a)))))))
+(new(v, 20);(Ref(Ref(int)) a;(new(a, v);(new(v, 30);print(rH(rH(a)))))))
 SymTable:
 v --> (0, int)
 Out:
@@ -20,14 +20,14 @@ FileTable:
 Heap:
 ExeStack:
 new(v, 20)
-(Ref(Ref(int)) a;(new(a, v);(new(v, 30);(a=v;print(rH(a))))))
+(Ref(Ref(int)) a;(new(a, v);(new(v, 30);print(rH(rH(a))))))
 SymTable:
 v --> (0, int)
 Out:
 FileTable:
 Heap:
 ExeStack:
-(Ref(Ref(int)) a;(new(a, v);(new(v, 30);(a=v;print(rH(a))))))
+(Ref(Ref(int)) a;(new(a, v);(new(v, 30);print(rH(rH(a))))))
 SymTable:
 v --> (1, int)
 Out:
@@ -36,7 +36,7 @@ Heap:
 1 --> 20
 ExeStack:
 Ref(Ref(int)) a
-(new(a, v);(new(v, 30);(a=v;print(rH(a)))))
+(new(a, v);(new(v, 30);print(rH(rH(a)))))
 SymTable:
 v --> (1, int)
 Out:
@@ -44,7 +44,7 @@ FileTable:
 Heap:
 1 --> 20
 ExeStack:
-(new(a, v);(new(v, 30);(a=v;print(rH(a)))))
+(new(a, v);(new(v, 30);print(rH(rH(a)))))
 SymTable:
 v --> (1, int)
 a --> (0, Ref(int))
@@ -54,7 +54,7 @@ Heap:
 1 --> 20
 ExeStack:
 new(a, v)
-(new(v, 30);(a=v;print(rH(a))))
+(new(v, 30);print(rH(rH(a))))
 SymTable:
 v --> (1, int)
 a --> (0, Ref(int))
@@ -63,7 +63,7 @@ FileTable:
 Heap:
 1 --> 20
 ExeStack:
-(new(v, 30);(a=v;print(rH(a))))
+(new(v, 30);print(rH(rH(a))))
 SymTable:
 v --> (1, int)
 a --> (2, Ref(int))
@@ -74,7 +74,7 @@ Heap:
 2 --> (1, int)
 ExeStack:
 new(v, 30)
-(a=v;print(rH(a)))
+print(rH(rH(a)))
 SymTable:
 v --> (1, int)
 a --> (2, Ref(int))
@@ -84,7 +84,7 @@ Heap:
 1 --> 20
 2 --> (1, int)
 ExeStack:
-(a=v;print(rH(a)))
+print(rH(rH(a)))
 SymTable:
 v --> (3, int)
 a --> (2, Ref(int))
@@ -95,12 +95,11 @@ Heap:
 2 --> (1, int)
 3 --> 30
 ExeStack:
-a=v
-print(rH(a))
 SymTable:
 v --> (3, int)
 a --> (2, Ref(int))
 Out:
+20
 FileTable:
 Heap:
 1 --> 20

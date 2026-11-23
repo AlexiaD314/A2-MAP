@@ -76,7 +76,8 @@ public class Examples {
                     new CompStmt(new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
                             new CompStmt(new NewStmt("a", new VarExp("v")),
                                     new CompStmt(new NewStmt("v", new ValueExp(new IntValue(30))),
-                                            new PrintStmt(new ReadHeapExp(new ReadHeapExp(new VarExp("a")))))))));
+                                            new CompStmt(new NewStmt("a", new VarExp("v")),
+                                                    new PrintStmt(new ReadHeapExp(new ReadHeapExp(new VarExp("a"))))))))));
 
     public static final IStmt EX9 = new CompStmt(
             new VarDeclStmt("v", new RefType(new IntType())),
@@ -84,8 +85,7 @@ public class Examples {
                     new CompStmt(new VarDeclStmt("a", new RefType(new RefType(new IntType()))),
                             new CompStmt(new NewStmt("a", new VarExp("v")),
                                     new CompStmt(new NewStmt("v", new ValueExp(new IntValue(30))),
-                                            new CompStmt(new AssignStmt("a", new VarExp("v")),
-                                                    new PrintStmt(new ReadHeapExp(new VarExp("a")))))))));
+                                            new PrintStmt(new ReadHeapExp(new ReadHeapExp(new VarExp("a")))))))));
 
     public static final IStmt EX10 = new CompStmt(
             new VarDeclStmt("v", new IntType()),
