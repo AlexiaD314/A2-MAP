@@ -13,7 +13,7 @@ import java.util.Set;
 import interpreter.controller.Controller;
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
-import interpreter.model.adt.GarbageCollector;
+import interpreter.controller.GarbageCollector;
 import interpreter.model.adt.MyDictionary;
 import interpreter.model.adt.MyHeap;
 import interpreter.model.adt.MyList;

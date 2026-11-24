@@ -2,7 +2,6 @@ package interpreter.controller;
 
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
-import interpreter.model.adt.GarbageCollector;
 import interpreter.model.adt.IStack;
 import interpreter.model.stmt.IStmt;
 import interpreter.repository.IRepository;

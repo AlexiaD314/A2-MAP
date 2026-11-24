@@ -13,7 +13,7 @@ import interpreter.controller.Controller;
 import interpreter.exceptions.ADTException;
 import interpreter.exceptions.RepositoryException;
 import interpreter.model.PrgState;
-import interpreter.model.adt.GarbageCollector;
+import interpreter.controller.GarbageCollector;
 import interpreter.model.adt.IDictionary;
 import interpreter.model.adt.MyDictionary;
 import interpreter.model.adt.MyHeap;
