@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
 import interpreter.model.stmt.IStmt;
+import interpreter.model.stmt.NopStmt;
 import interpreter.model.value.IntValue;
 import interpreter.repository.Repository;
 import interpreter.view.Examples;
@@ -41,5 +42,20 @@ class ControllerTest {
         int a = log.indexOf("ExeStack:"), b = log.indexOf("SymTable:"),
                 c = log.indexOf("Out:"),      d = log.indexOf("FileTable:");
         assertTrue(0 <= a && a < b && b < c && c < d);
+    }
+
+    @Test
+    void oneStepOnEmptyStackThrowsAndExamplesRun() throws Exception {
+        PrgState empty = PrgState.of(new NopStmt());
+        empty.getExeStack().pop();
+        var repo = new Repository(empty, dir.resolve("empty.log").toString());
+        Controller ctrl = new Controller(repo, true);
+        assertThrows(MyException.class, () -> ctrl.oneStep(empty));
+
+        run(Examples.EX6);
+        run(Examples.EX7);
+        run(Examples.EX8);
+        run(Examples.EX9);
+        run(Examples.EX10);
     }
 }

@@ -9,10 +9,12 @@ import interpreter.model.adt.IDictionary;
 import interpreter.model.adt.IHeap;
 import interpreter.model.adt.MyDictionary;
 import interpreter.model.adt.MyHeap;
+import interpreter.model.type.IntType;
 import interpreter.model.value.BoolValue;
-import interpreter.model.value.IntValue;
-import interpreter.model.value.StringValue;
 import interpreter.model.value.IValue;
+import interpreter.model.value.IntValue;
+import interpreter.model.value.RefValue;
+import interpreter.model.value.StringValue;
 
 class RelationalExpTest {
 
@@ -63,5 +65,36 @@ class RelationalExpTest {
     void testToString() {
         IExp exp = new RelationalExp(RelOp.LT, num(2), num(3));
         assertEquals("(2 < 3)", exp.toString());
+    }
+
+    @Test
+    void testArithLogicVarAndReadHeap() throws MyException {
+        assertEquals(new IntValue(10), new ArithExp(ArithOp.ADD, num(8), num(2)).eval(symTable, heap));
+        assertEquals(new IntValue(6), new ArithExp(ArithOp.SUB, num(8), num(2)).eval(symTable, heap));
+        assertEquals(new IntValue(16), new ArithExp(ArithOp.MUL, num(8), num(2)).eval(symTable, heap));
+        assertEquals(new IntValue(4), new ArithExp(ArithOp.DIV, num(8), num(2)).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new ArithExp(ArithOp.DIV, num(8), num(0)).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new ArithExp(ArithOp.ADD, new ValueExp(new BoolValue(true)), num(1)).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new ArithExp(ArithOp.ADD, num(1), new ValueExp(new BoolValue(true))).eval(symTable, heap));
+        assertNotNull(new ArithExp(ArithOp.ADD, num(1), num(2)).toString());
+
+        IExp t = new ValueExp(new BoolValue(true));
+        IExp f = new ValueExp(new BoolValue(false));
+        assertEquals(new BoolValue(false), new LogicExp(LogicOp.AND, t, f).eval(symTable, heap));
+        assertEquals(new BoolValue(true), new LogicExp(LogicOp.OR, t, f).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new LogicExp(LogicOp.AND, num(1), t).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new LogicExp(LogicOp.OR, t, num(1)).eval(symTable, heap));
+        assertNotNull(new LogicExp(LogicOp.AND, t, f).toString());
+
+        assertThrows(MyException.class, () -> new VarExp("missing").eval(symTable, heap));
+        int addr = heap.allocate(new IntValue(77));
+        symTable.put("ref", new RefValue(addr, new IntType()));
+        symTable.put("n", new IntValue(5));
+        assertEquals(new IntValue(77), new ReadHeapExp(new VarExp("ref")).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new ReadHeapExp(new VarExp("n")).eval(symTable, heap));
+        assertThrows(MyException.class, () -> new ReadHeapExp(num(1)).eval(symTable, heap));
+        symTable.put("dangling", new RefValue(555, new IntType()));
+        assertThrows(MyException.class, () -> new ReadHeapExp(new VarExp("dangling")).eval(symTable, heap));
+        assertNotNull(new ReadHeapExp(new VarExp("ref")).toString());
     }
 }

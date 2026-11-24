@@ -24,4 +24,13 @@ class MyStackTest {
         IStack<Integer> stack = new MyStack<>();
         assertThrows(MyException.class, stack::pop);
     }
+
+    @Test
+    void testStackContentsAndToString() {
+        MyStack<String> stack = new MyStack<>();
+        stack.push("first");
+        stack.push("second");
+        assertFalse(stack.isEmpty());
+        assertNotNull(stack.toString());
+    }
 }
