@@ -1,0 +1,86 @@
+ExeStack:
+(int a;(int b;(a=5;(b=7;(if (a < b) then print(a) else print(b))))))
+SymTable:
+Out:
+FileTable:
+Heap:
+ExeStack:
+int a
+(int b;(a=5;(b=7;(if (a < b) then print(a) else print(b)))))
+SymTable:
+Out:
+FileTable:
+Heap:
+ExeStack:
+(int b;(a=5;(b=7;(if (a < b) then print(a) else print(b)))))
+SymTable:
+a --> 0
+Out:
+FileTable:
+Heap:
+ExeStack:
+int b
+(a=5;(b=7;(if (a < b) then print(a) else print(b))))
+SymTable:
+a --> 0
+Out:
+FileTable:
+Heap:
+ExeStack:
+(a=5;(b=7;(if (a < b) then print(a) else print(b))))
+SymTable:
+b --> 0
+a --> 0
+Out:
+FileTable:
+Heap:
+ExeStack:
+a=5
+(b=7;(if (a < b) then print(a) else print(b)))
+SymTable:
+b --> 0
+a --> 0
+Out:
+FileTable:
+Heap:
+ExeStack:
+(b=7;(if (a < b) then print(a) else print(b)))
+SymTable:
+b --> 0
+a --> 5
+Out:
+FileTable:
+Heap:
+ExeStack:
+b=7
+(if (a < b) then print(a) else print(b))
+SymTable:
+b --> 0
+a --> 5
+Out:
+FileTable:
+Heap:
+ExeStack:
+(if (a < b) then print(a) else print(b))
+SymTable:
+b --> 7
+a --> 5
+Out:
+FileTable:
+Heap:
+ExeStack:
+print(a)
+SymTable:
+b --> 7
+a --> 5
+Out:
+FileTable:
+Heap:
+ExeStack:
+SymTable:
+b --> 7
+a --> 5
+Out:
+5
+FileTable:
+Heap:

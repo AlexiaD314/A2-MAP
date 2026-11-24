@@ -6,14 +6,20 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import interpreter.controller.Controller;
 import interpreter.exceptions.MyException;
 import interpreter.model.PrgState;
+import interpreter.model.adt.GarbageCollector;
 import interpreter.model.adt.MyDictionary;
 import interpreter.model.adt.MyHeap;
 import interpreter.model.adt.MyList;
 import interpreter.model.adt.MyStack;
+import interpreter.model.exp.ArithExp;
+import interpreter.model.exp.ArithOp;
 import interpreter.model.exp.ReadHeapExp;
 import interpreter.model.exp.RelOp;
 import interpreter.model.exp.RelationalExp;
@@ -23,9 +29,12 @@ import interpreter.model.type.BoolType;
 import interpreter.model.type.IntType;
 import interpreter.model.type.RefType;
 import interpreter.model.value.BoolValue;
+import interpreter.model.value.IValue;
 import interpreter.model.value.IntValue;
+import interpreter.model.value.RefValue;
 import interpreter.model.value.StringValue;
 import interpreter.repository.Repository;
+import interpreter.view.Examples;
 
 class FileStmtTest {
     @TempDir
@@ -143,5 +152,61 @@ class FileStmtTest {
         assertEquals("bool", new BoolType().toString());
         assertEquals("true", new BoolValue(true).toString());
         assertEquals("Ref(int)", new RefType(new IntType()).toString());
+    }
+
+    @Test
+    void testWhileZeroOneAndNIterationsAndGcMissingAddr() throws Exception {
+        Controller ctrl = new Controller(
+                new Repository(PrgState.of(new NopStmt()), dir.resolve("while_gc.log").toString()), false);
+
+        IStmt zeroLoop = new CompStmt(
+                new VarDeclStmt("x", new IntType()),
+                new CompStmt(
+                        new AssignStmt("x", new ValueExp(new IntValue(5))),
+                        new CompStmt(
+                                new VarDeclStmt("flag", new BoolType()),
+                                new CompStmt(
+                                        new AssignStmt("flag", new ValueExp(new BoolValue(false))),
+                                        new WhileStmt(new VarExp("flag"),
+                                                new AssignStmt("x", new ValueExp(new IntValue(99))))
+                                )
+                        )
+                )
+        );
+        PrgState sZero = PrgState.of(zeroLoop);
+        while (!sZero.getExeStack().isEmpty()) {
+            ctrl.oneStep(sZero);
+        }
+        assertEquals(new IntValue(5), sZero.getSymTable().lookup("x"));
+
+        IStmt oneLoop = new CompStmt(
+                new VarDeclStmt("v", new IntType()),
+                new CompStmt(
+                        new AssignStmt("v", new ValueExp(new IntValue(1))),
+                        new WhileStmt(
+                                new RelationalExp(RelOp.GT, new VarExp("v"), new ValueExp(new IntValue(0))),
+                                new AssignStmt("v", new ArithExp(ArithOp.SUB,
+                                        new VarExp("v"), new ValueExp(new IntValue(1))))
+                        )
+                )
+        );
+        PrgState sOne = PrgState.of(oneLoop);
+        while (!sOne.getExeStack().isEmpty()) {
+            ctrl.oneStep(sOne);
+        }
+        assertEquals(new IntValue(0), sOne.getSymTable().lookup("v"));
+
+        PrgState sEx10 = PrgState.of(Examples.EX10);
+        while (!sEx10.getExeStack().isEmpty()) {
+            ctrl.oneStep(sEx10);
+        }
+        assertEquals(new IntValue(4), sEx10.getOut().get(0));
+        assertEquals(new IntValue(0), sEx10.getOut().get(4));
+
+        Map<Integer, IValue> heap = Map.of(1, new IntValue(10));
+        List<IValue> symVals = List.of(new RefValue(404, new IntType()));
+        Set<Integer> reachable = GarbageCollector.reachableAddresses(symVals, heap);
+        assertEquals(Set.of(404), reachable);
+        assertTrue(GarbageCollector.safeGarbageCollector(symVals, heap).isEmpty());
     }
 }
